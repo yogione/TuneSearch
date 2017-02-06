@@ -42,6 +42,9 @@
                                 <rect key="frame" x="298" y="43" width="61" height="30"/>
                                 <color key="backgroundColor" red="0.96338934409999999" green="1" blue="0.76826753020000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Get Data"/>
+                                <connections>
+                                    <action selector="getFilePressedWithButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aVv-cI-RT9"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1fo-yb-Xv2">
                                 <rect key="frame" x="16" y="81" width="343" height="578"/>
@@ -62,6 +65,7 @@
                     </view>
                     <connections>
                         <outlet property="networkStatusLabel" destination="Fst-4e-PlD" id="n9z-7D-4Qd"/>
+                        <outlet property="searchField" destination="Xnl-jj-0wR" id="c1s-hR-Y7w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

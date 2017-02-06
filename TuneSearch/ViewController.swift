@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     var reachability :Reachability?
     
     @IBOutlet var networkStatusLabel    :UILabel!
+    @IBOutlet var searchField           :UITextField!
     
     //MARK :- CORE METHODS
     func parseJason(data: Data){
@@ -74,10 +75,13 @@ class ViewController: UIViewController {
         guard let reach = reachability else {
             return
         }
+        guard let searchTerm = searchField.text else {
+            return
+        }
         if reach .isReachable {
             // getFile(filename: "/classfiles/iOS_URL_Class_Get_File.txt")
            // getFile(filename: "/classfiles/flavors.json")
-            getFile(filename: "/classfiles/flavors.json")
+            getFile(filename: "/search?term=\(searchTerm)")
             
         } else {
             print("Host Not reachable. Turn on the internet")
@@ -85,6 +89,35 @@ class ViewController: UIViewController {
         
         
     }
+    
+    //MARK :- Table View Methods
+ /*   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      //  return contactArray.count
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+       // let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactTableViewCell
+      //  let currentContactItem = contactArray[indexPath.row]
+      //  cell.firstNameLabel.text = currentContactItem.firstName
+       // cell.lastNameLabel.text = currentContactItem.lastName
+       // cell.phoneNumberLabel.text = currentContactItem.phoneNumber
+      //  cell.emailAddressLabel.text = currentContactItem.emailAddress
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80.0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentContactItem = contactArray[indexPath.row]
+        print("Row: \(indexPath.row) \(currentContactItem.firstName)")
+    }
+ 
+    */
     
     //MARK :- REACHABILITY METHODS
     
