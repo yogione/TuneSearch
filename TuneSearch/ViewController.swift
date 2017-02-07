@@ -58,7 +58,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print("Flavor:\(songsDict["trackName"])")
                 albumArray.append(AlbumItem(artist: "\(songsDict["artistName"])",
                     album: "\(songsDict["collectionName"])",
-                    song: "\(songsDict["trackName"])") ) }
+                    song: "\(songsDict["trackName"])") )
+                
+              //  if let artistName2 = songsDict["artistName"]
+              //  { print ("got name")} else {print ("got no name")}
+              //  if let albumName2 = songsDict["collectionName"]
+              //  { print ("got name")} else {print ("got no name")}
+              //  if let songName2 = songsDict["trackName"]
+             //   { print ("got name")} else {print ("got no name")}
+                
+              //  albumArray.append(AlbumItem(artist: artistName2, album: albumName2, song: songName2))
+                
+                
+            }
+            
             albumTableView!.reloadData()
             print("Album Array: \(albumArray)")
         } catch {
