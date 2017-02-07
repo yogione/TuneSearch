@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var albumArray = [AlbumItem]()
     
     //MARK :- LIFE CYCLE METHODS
     
@@ -17,6 +19,7 @@ class ViewController: UIViewController {
     
     @IBOutlet var networkStatusLabel    :UILabel!
     @IBOutlet var searchField           :UITextField!
+    @IBOutlet var albumTableView        :UITableView!
     
     //MARK :- CORE METHODS
     func parseJason(data: Data){
@@ -32,6 +35,31 @@ class ViewController: UIViewController {
                 print("Flavor:\(flavorDict["name"])")
             }
             
+        } catch {
+            print("JSON Parsing Error")
+        }
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
+        
+    }
+    
+    func parseItunesJason(data: Data){
+        
+        do {
+            let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String:Any]
+            print("JSON: \(jsonResult)")
+            let songsArray = jsonResult["results"] as! [[String:Any]]
+            for songsDict in songsArray {
+                print("Song:\(songsDict)")
+            }
+            for songsDict in songsArray {
+                print("Flavor:\(songsDict["trackName"])")
+                albumArray.append(AlbumItem(artist: "\(songsDict["artistName"])",
+                    album: "\(songsDict["collectionName"])",
+                    song: "\(songsDict["trackName"])") ) }
+            albumTableView?.reloadData()
+            print("Album Array: \(albumArray)")
         } catch {
             print("JSON Parsing Error")
         }
@@ -61,6 +89,7 @@ class ViewController: UIViewController {
                 print("Got Data: \(recvData)")
                 let dataString = String.init(data: recvData, encoding: .utf8)
                 print("Got Data String: \(dataString)")
+                self.parseItunesJason(data: recvData)
                 
             } else {
                 print("Got data of length 0")
@@ -70,6 +99,15 @@ class ViewController: UIViewController {
         }
         task.resume()
     }
+    
+    //MARK: - setup METHODS -- just for testing
+    func fillArray() -> [AlbumItem]{
+        let album3 = AlbumItem(artist: "Bill", album: "jethrotull", song: "thick as a brick")
+        let album2 = AlbumItem(artist: "Joe", album: "acqualong", song: "no clue")
+        let album1 = AlbumItem(artist: "srini", album: "jethrotull", song: "a song")
+        return [album1, album2, album3]
+    }
+
     
     @IBAction func getFilePressed(button: UIButton){
         guard let reach = reachability else {
@@ -91,19 +129,18 @@ class ViewController: UIViewController {
     }
     
     //MARK :- Table View Methods
- /*   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      //  return contactArray.count
-        return 1
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       return albumArray.count
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-       // let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactTableViewCell
-      //  let currentContactItem = contactArray[indexPath.row]
-      //  cell.firstNameLabel.text = currentContactItem.firstName
-       // cell.lastNameLabel.text = currentContactItem.lastName
-       // cell.phoneNumberLabel.text = currentContactItem.phoneNumber
-      //  cell.emailAddressLabel.text = currentContactItem.emailAddress
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumCell", for: indexPath) as! AlbumTableViewCell
+        let currentAlbumItem = albumArray[indexPath.row]
+        cell.artistNameLabel.text = currentAlbumItem.artistName
+        cell.albumNameLabel.text = currentAlbumItem.albumName
+        cell.songNameLabel.text = currentAlbumItem.songName
         
         return cell
     }
@@ -113,11 +150,10 @@ class ViewController: UIViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentContactItem = contactArray[indexPath.row]
-        print("Row: \(indexPath.row) \(currentContactItem.firstName)")
+        let currentAlbumItem = albumArray[indexPath.row]
+        print("Row: \(indexPath.row) \(currentAlbumItem.artistName)")
     }
  
-    */
     
     //MARK :- REACHABILITY METHODS
     
@@ -163,6 +199,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setupReachability(hostName: hostName)
         startReachability()
+        // albumArray = fillArray()
     }
     
     override func didReceiveMemoryWarning() {
