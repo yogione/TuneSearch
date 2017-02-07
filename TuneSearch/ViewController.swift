@@ -56,28 +56,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             for songsDict in songsArray {
                 print("Flavor:\(songsDict["trackName"])")
-                albumArray.append(AlbumItem(artist: "\(songsDict["artistName"])",
-                    album: "\(songsDict["collectionName"])",
-                    song: "\(songsDict["trackName"])") )
                 
-              //  if let artistName2 = songsDict["artistName"]
-              //  { print ("got name")} else {print ("got no name")}
-              //  if let albumName2 = songsDict["collectionName"]
-              //  { print ("got name")} else {print ("got no name")}
-              //  if let songName2 = songsDict["trackName"]
-             //   { print ("got name")} else {print ("got no name")}
+              //  albumArray.append(AlbumItem(artist: "\(songsDict["artistName"])",
+                //    album: "\(songsDict["collectionName"])",
+                //    song: "\(songsDict["trackName"])") )
                 
-              //  albumArray.append(AlbumItem(artist: artistName2, album: albumName2, song: songName2))
+         let artistName2 = songsDict["artistName"] as? String ?? "no data"
+             
+         let albumName2 = songsDict["collectionName"] as? String ?? "nodata"
+            
+         let songName2 = songsDict["trackName"] as? String ?? "nodata"
+            
                 
-                
+        albumArray.append(AlbumItem(artist: artistName2, album: albumName2, song: songName2))
+            
             }
             
-            albumTableView!.reloadData()
+            
             print("Album Array: \(albumArray)")
         } catch {
             print("JSON Parsing Error")
         }
         DispatchQueue.main.async {
+            self.albumTableView.reloadData()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         }
         
