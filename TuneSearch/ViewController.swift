@@ -22,6 +22,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var albumTableView        :UITableView!
     
     //MARK :- CORE METHODS
+    // not using the following func
     func parseJason(data: Data){
         
         do {
@@ -58,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 albumArray.append(AlbumItem(artist: "\(songsDict["artistName"])",
                     album: "\(songsDict["collectionName"])",
                     song: "\(songsDict["trackName"])") ) }
-            albumTableView?.reloadData()
+            albumTableView!.reloadData()
             print("Album Array: \(albumArray)")
         } catch {
             print("JSON Parsing Error")
